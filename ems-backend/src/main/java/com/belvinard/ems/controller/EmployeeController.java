@@ -2,8 +2,11 @@ package com.belvinard.ems.controller;
 
 
 import com.belvinard.ems.entity.Employee;
+import com.belvinard.ems.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,6 +16,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/public/employees")
 public class EmployeeController {
+    @Autowired
+    private EmployeeService employeeService;
 
 
 
@@ -23,11 +28,12 @@ public class EmployeeController {
         return employees;
     }
 
-    /*@PostMapping
-    public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody EmployeeDto employeeDto){
-        EmployeeDto savedEmployee = employeeService.createEmployee(employeeDto);
-        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
-    } */
+    @PostMapping
+    public ResponseEntity<String> createEmployee(@RequestBody Employee employee){
+        employeeService.createEmployee(employee);
+        return new ResponseEntity<>("Employee added successfully", HttpStatus.CREATED);
+
+    }
 
 
 }
